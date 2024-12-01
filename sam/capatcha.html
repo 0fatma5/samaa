@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled CAPTCHA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="captcha-wrapper">
+    <div class="captcha-instructions">Select all images that have <strong>train</strong>.</div>
+    <div class="image-grid" id="imageGrid"></div>
+    
+    <div class="human-check">
+        <input type="checkbox" id="humanConfirm">
+        <label for="humanConfirm">I am not a robot</label>
+    </div>
+
+    <button class="validate-button" onclick="validateCaptcha()">Validate</button>
+    <div class="validation-feedback" id="feedback"></div>
+</div>
+
+<script>
+const allImages = [
+    './photos/road1.jpeg',
+    './photos/road2.jpeg',
+    './photos/road3.jpeg',
+    './photos/road4.jpeg',
+    './photos/road5.jpeg',
+    './photos/road6.jpeg',
+    './photos/tarin1.jpeg',
+    './photos/train2.jpeg',
+    './photos/train3.jpeg',
+    './photos/tarin4.jpeg',
+    './photos/train5.jpeg',
+    './photos/tarin6.jpeg',
+
+
+];
+
+const targetImages = [
+    './photos/tarin1.jpeg',
+    './photos/train2.jpeg',
+    './photos/train3.jpeg',
+    './photos/tarin4.jpeg',
+    './photos/train5.jpeg',
+    './photos/tarin6.jpeg',
+];
+
+function extractFileName(path) {
+    // Remove any extra spaces to ensure accurate comparison
+    return path.split('/').pop().split('\\').pop().trim();  
+}
+
+function displayImages() {
+    const grid = document.getElementById("imageGrid");
+    allImages.sort(() => Math.random() - 0.5);  // Randomize image order
+    allImages.forEach((imgUrl) => {
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        img.alt = "captcha image";
+        img.onclick = () => img.classList.toggle("active");
+        grid.appendChild(img);
+    });
+}
+
+function validateCaptcha() {
+    const isHuman = document.getElementById("humanConfirm").checked;
+    const feedback = document.getElementById("feedback");
+
+    if (!isHuman) {
+        feedback.textContent = "Please confirm that you are not a robot by checking the box.";
+        feedback.style.color = "red";
+        return;
+    }
+
+    // Get selected images
+    const selectedImages = Array.from(document.querySelectorAll(".image-grid img.active"))
+        .map((img) => extractFileName(img.src));
+
+    // Get correct file names from the target images array
+    const correctFilenames = targetImages.map((img) => extractFileName(img));
+
+
+
+    // Check if all selected images are correct and no extras are selected
+    const allCorrect = selectedImages.every((filename) => correctFilenames.includes(filename));
+    const noExtras = selectedImages.length === correctFilenames.length;
+
+
+
+    if (allCorrect && noExtras) {
+        feedback.textContent = "Great job! You selected all the correct images. Verification successful.";
+        feedback.style.color = "green";
+    } else if (!allCorrect) {
+        feedback.textContent = "Oops! Some selected images are incorrect. Please try again.";
+        feedback.style.color = "red";
+    } else {
+        feedback.textContent = "You selected too many or too few images. Please follow the instructions carefully.";
+        feedback.style.color = "red";
+    }
+}
+
+window.onload = displayImages;
+</script>
+</body>
+</html>

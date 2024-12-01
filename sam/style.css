@@ -1,0 +1,86 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #dbe2e8, #c3cfe2); /* New gradient background */
+    text-align: center;
+}
+
+.captcha-wrapper {
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 25px;
+    animation: fadeIn 1s ease-in-out; /* Added fade-in animation */
+}
+
+.captcha-instructions {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.image-grid img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s, border 0.3s;
+}
+
+/* Hover effects on images: Add a rotation and scale effect */
+.image-grid img:hover {
+    transform: scale(1.1) rotate(10deg); /* Added rotation */
+}
+
+.image-grid img.active {
+    border: 2px solid #007bff;
+    background-color: #d9edf7;
+}
+
+/* Animation to fade in the captcha wrapper */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.human-check {
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+.validate-button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.validate-button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.validation-feedback {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    animation: fadeIn 1s ease-in-out; /* Animation for feedback */
+}
